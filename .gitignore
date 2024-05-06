@@ -1,0 +1,6 @@
+/logs
+**/*.o
+**/*.tmp
+**/.vscode/*
+.gitignore
+.idea
