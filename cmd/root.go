@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
+	"os/exec"
 )
 
 var rootCmd = &cobra.Command{
@@ -17,6 +19,18 @@ var rootCmd = &cobra.Command{
 	PersistentPreRunE: func(_ *cobra.Command, _ []string) error {
 		if GlobalOptions.FilePath == "" {
 			return fmt.Errorf("file path is empty")
+		}
+		if GlobalOptions.Password == "" {
+			// 通过 openssl 生成密码
+			c := exec.Command("openssl", "rand", "-base64", "16")
+			var out bytes.Buffer
+			c.Stdout = &out
+			err := c.Run()
+			if err != nil {
+				return err
+			}
+			GlobalOptions.Password = out.String()
+			fmt.Println("passwd:", GlobalOptions.Password)
 		}
 		return nil
 	},
