@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 )
 
+const DefaultPassword = "123456"
+
 var rootCmd = &cobra.Command{
 	Use:           "htpasswd",
 	Short:         "htpasswd is a simple utility to create and update htpasswd files.",
@@ -14,13 +16,6 @@ var rootCmd = &cobra.Command{
 	SilenceUsage:  true,
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
-	},
-	PersistentPreRunE: func(_ *cobra.Command, _ []string) error {
-		if GlobalOptions.Password == "" {
-			// 通过 openssl 生成密码
-			GlobalOptions.Password = "ksp123456"
-		}
-		return nil
 	},
 }
 
@@ -37,6 +32,9 @@ func init() {
 	rootCmd.RunE = func(cmd *cobra.Command, args []string) error {
 		user := GlobalOptions.User
 		passwd := GlobalOptions.Password
+		if passwd == "" {
+			passwd = DefaultPassword
+		}
 		filePath := GlobalOptions.FilePath
 		dir := &GlobalOptions.Dir
 		if *dir != "" {
