@@ -1,4 +1,4 @@
-FROM harbor.moresec.cn/ksp/alpine:3.18.0
+FROM alpine:3.18.6
 
 LABEL maintainer = "wangpeng@moresec.cn"
 
