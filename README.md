@@ -9,3 +9,8 @@
 install -m 755 htpasswd /usr/local/bin/htpasswd
 htpasswd -u surpass -p 123456 -f ./htpasswd 
 ```
++ 提供一个helm chart 包示例
+```shell
+helm install -n your_namespace resource ./resource
+
+```

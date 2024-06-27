@@ -1,0 +1,6 @@
+apiVersion: v2
+name: resource
+description: A Helm chart for ksp resource
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
