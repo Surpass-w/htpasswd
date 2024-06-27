@@ -9,7 +9,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"os"
-	"path/filepath"
 )
 
 const (
@@ -62,26 +61,9 @@ func init() {
 			data, _ := json.MarshalIndent(GlobalOptions, "", "    ")
 			fmt.Println(string(data))
 		}
-		dir := filepath.Dir(GlobalOptions.Path)
-		info, err := os.Stat(dir)
-		if err != nil {
-			if os.IsNotExist(err) {
-				err = os.MkdirAll(dir, os.ModePerm)
-				if err != nil {
-					return err
-				}
-			}
-			return err
-		}
-		if !info.IsDir() {
-			err = os.MkdirAll(dir, os.ModePerm)
-			if err != nil {
-				return err
-			}
-		}
-
 		f, err := os.OpenFile(GlobalOptions.Path, os.O_CREATE|os.O_RDWR|os.O_TRUNC, os.ModePerm)
 		if err != nil {
+			fmt.Println(err)
 			return errors.Wrap(err, "OpenFile")
 		}
 		defer f.Close()
